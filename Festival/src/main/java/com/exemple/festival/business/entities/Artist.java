@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "artists")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Artist {
 
     @Id
