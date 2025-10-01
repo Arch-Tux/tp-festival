@@ -1,9 +1,7 @@
-version: "3.8"
-
 services:
   db:
-    image: postgres
-    container_name: "${DB_NAME}_postgresql"
+    image: postgres:15
+    container_name: "festival_postgresql"
     restart: always
     environment:
       POSTGRES_INITDB_ARGS: "--auth-host=md5 --auth-local=md5"
@@ -16,10 +14,9 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
   
-
   adminer:
     image: adminer:latest
-    container_name: "${DB_NAME}_adminer"
+    container_name: "festival_adminer"
     depends_on:
       - db
     environment:
@@ -30,4 +27,3 @@ services:
 
 volumes:
   db_data:
-  pgadmin-data:
