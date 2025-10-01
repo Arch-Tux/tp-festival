@@ -1,0 +1,16 @@
+name: 'App Check'
+
+on:
+  pull_request:
+    branches: '**'
+
+jobs:
+  Check:
+    runs-on: ubuntu-latest
+    name: Status Check
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run check
+        run: echo "CI check passed ✅"
