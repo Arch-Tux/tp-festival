@@ -27,8 +27,8 @@ public class ConcertService {
      */
     public Concert save(Concert concert) {
         // Validations de base
-        if (concert.getStartsAt() == null || concert.getStartsAt().trim().isEmpty()) {
-            throw new IllegalArgumentException("La date/heure du concert ne peut pas être vide");
+        if (concert.getStartsAt() == null) {
+            throw new IllegalArgumentException("La date du concert ne peut pas être nulle");
         }
         
         if (concert.getCapacity() == null || concert.getCapacity() <= 0) {

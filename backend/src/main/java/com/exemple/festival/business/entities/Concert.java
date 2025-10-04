@@ -1,5 +1,7 @@
 package com.exemple.festival.business.entities;
 
+import java.sql.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -32,7 +34,7 @@ public class Concert {
     private Artist artist;
 
     @Column(name = "starts_at", nullable = false)
-    private String startsAt; 
+    private Date startsAt; 
 
     @Column(nullable = false)
     private Integer capacity;

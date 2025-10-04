@@ -1,12 +1,11 @@
 package com.exemple.festival.data.repositories;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,19 +19,18 @@ public interface ConcertRepository extends JpaRepository<Concert, Long> {
     @Query(value = "ALTER SEQUENCE concerts_id_seq RESTART WITH 1", nativeQuery = true)
     void resetIdSequence();
     
+    // Trouver les concerts d'un artiste
     List<Concert> findByArtistId(Long artistId);
     
-    List<Concert> findByTitleContainingIgnoreCase(String title);
+    // Rechercher par date exacte
+    List<Concert> findByStartsAt(Date startsAt);
     
-    List<Concert> findByDateAfter(LocalDateTime date);
+    // Rechercher par date après une date donnée
+    List<Concert> findByStartsAtAfter(Date date);
     
-    List<Concert> findByDateBefore(LocalDateTime date);
+    // Rechercher par date avant une date donnée
+    List<Concert> findByStartsAtBefore(Date date);
     
-    List<Concert> findByDateBetween(LocalDateTime startDate, LocalDateTime endDate);
-    
-    @Query("SELECT c FROM Concert c WHERE c.availableTickets > 0")
-    List<Concert> findConcertsWithAvailableTickets();
-    
-    @Query("SELECT c FROM Concert c WHERE c.artist.id = :artistId AND c.availableTickets > 0")
-    List<Concert> findAvailableConcertsByArtist(@Param("artistId") Long artistId);
+    // Rechercher par capacité minimale
+    List<Concert> findByCapacityGreaterThanEqual(Integer minCapacity);
 }
