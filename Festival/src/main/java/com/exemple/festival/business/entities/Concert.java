@@ -15,10 +15,8 @@ public class Concert {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-  
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artist_id", nullable = false,
-            foreignKey = @ForeignKey(name = "fk_concert_artist"))
+    @JoinColumn(name = "artist_id", nullable = false, foreignKey = @ForeignKey(name = "fk_concert_artist"))
     private Artist artist;
 
     @Column(name = "starts_at", nullable = false)
