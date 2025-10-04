@@ -3,6 +3,7 @@ package com.exemple.festival.presentation;
 import com.exemple.festival.business.entities.Concert;
 import com.exemple.festival.business.services.ConcertService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,8 @@ public class ConcertController {
 
     @Autowired
     private ConcertService concertService;
+
+    // ========== READ OPERATIONS ==========
 
     /**
      * Récupérer tous les concerts
@@ -46,5 +49,77 @@ public class ConcertController {
     public ResponseEntity<Long> count() {
         long count = concertService.count();
         return ResponseEntity.ok(count);
+    }
+
+    /**
+     * Récupérer les concerts d'un artiste
+     */
+    @GetMapping("/artist/{artistId}")
+    public ResponseEntity<List<Concert>> findByArtistId(@PathVariable Long artistId) {
+        List<Concert> concerts = concertService.findByArtistId(artistId);
+        return ResponseEntity.ok(concerts);
+    }
+
+    // ========== CREATE OPERATION ==========
+
+    /**
+     * Créer un nouveau concert
+     */
+    @PostMapping
+    public ResponseEntity<Concert> create(@RequestBody Concert concert) {
+        try {
+            // S'assurer que l'ID est null pour une création
+            concert.setId(null);
+            Concert savedConcert = concertService.save(concert);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedConcert);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    // ========== UPDATE OPERATION ==========
+
+    /**
+     * Modifier un concert existant
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Concert> update(@PathVariable Long id, @RequestBody Concert concert) {
+        try {
+            // Vérifier que le concert existe
+            if (!concertService.existsById(id)) {
+                return ResponseEntity.notFound().build();
+            }
+            
+            // S'assurer que l'ID correspond
+            concert.setId(id);
+            Concert updatedConcert = concertService.save(concert);
+            return ResponseEntity.ok(updatedConcert);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    // ========== DELETE OPERATIONS ==========
+
+    /**
+     * Supprimer un concert par ID
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        if (!concertService.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        concertService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Supprimer tous les concerts et reset des IDs
+     */
+    @DeleteMapping("/all")
+    public ResponseEntity<Void> deleteAll() {
+        concertService.deleteAllAndResetIds();
+        return ResponseEntity.noContent().build();
     }
 }
