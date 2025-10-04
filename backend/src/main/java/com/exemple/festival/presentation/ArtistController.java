@@ -2,6 +2,7 @@
 package com.exemple.festival.presentation;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,14 +77,14 @@ public class ArtistController {
      * Créer un nouvel artiste
      */
     @PostMapping
-    public ResponseEntity<Artist> create(@RequestBody Artist artist) {
+    public ResponseEntity<?> create(@RequestBody Artist artist) {
         try {
             // S'assurer que l'ID est null pour une création
             artist.setId(null);
             Artist savedArtist = artistService.save(artist);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedArtist);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 
@@ -93,7 +94,7 @@ public class ArtistController {
      * Modifier un artiste existant
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Artist> update(@PathVariable Long id, @RequestBody Artist artist) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Artist artist) {
         try {
             // Vérifier que l'artiste existe
             if (!artistService.existsById(id)) {
@@ -105,7 +106,7 @@ public class ArtistController {
             Artist updatedArtist = artistService.save(artist);
             return ResponseEntity.ok(updatedArtist);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 

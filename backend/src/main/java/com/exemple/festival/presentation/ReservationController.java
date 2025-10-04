@@ -1,6 +1,7 @@
 package com.exemple.festival.presentation;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,14 +109,14 @@ public class ReservationController {
      * Créer une nouvelle réservation
      */
     @PostMapping
-    public ResponseEntity<Reservation> create(@RequestBody Reservation reservation) {
+    public ResponseEntity<?> create(@RequestBody Reservation reservation) {
         try {
             // S'assurer que l'ID est null pour une création
             reservation.setId(null);
             Reservation savedReservation = reservationService.save(reservation);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedReservation);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 
@@ -125,7 +126,7 @@ public class ReservationController {
      * Modifier une réservation existante
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Reservation> update(@PathVariable Long id, @RequestBody Reservation reservation) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Reservation reservation) {
         try {
             // Vérifier que la réservation existe
             if (!reservationService.existsById(id)) {
@@ -137,7 +138,7 @@ public class ReservationController {
             Reservation updatedReservation = reservationService.save(reservation);
             return ResponseEntity.ok(updatedReservation);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 

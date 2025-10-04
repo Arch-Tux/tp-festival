@@ -2,11 +2,13 @@ package com.exemple.festival.config;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -114,11 +116,12 @@ public class DataSeeder implements CommandLineRunner {
      * Génère une date aléatoire entre maintenant et fin 2025
      */
     private Date generateRandomDate(Random random) {
-        LocalDate startDate = LocalDate.now(); // Date actuelle
-        LocalDate endDate = LocalDate.of(2025, 12, 31); // Fin 2025
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = LocalDate.of(2025, 12, 31);
         
-        long daysBetween = startDate.toEpochDay() - endDate.toEpochDay();
-        long randomDays = Math.abs(random.nextLong() % Math.abs(daysBetween));
+        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+        
+        long randomDays = ThreadLocalRandom.current().nextLong(daysBetween + 1);
         
         LocalDate randomDate = startDate.plusDays(randomDays);
         return Date.valueOf(randomDate);

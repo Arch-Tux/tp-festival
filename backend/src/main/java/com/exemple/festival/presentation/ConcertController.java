@@ -1,6 +1,7 @@
 package com.exemple.festival.presentation;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,14 +75,14 @@ public class ConcertController {
      * Créer un nouveau concert
      */
     @PostMapping
-    public ResponseEntity<Concert> create(@RequestBody Concert concert) {
+    public ResponseEntity<?> create(@RequestBody Concert concert) {
         try {
             // S'assurer que l'ID est null pour une création
             concert.setId(null);
             Concert savedConcert = concertService.save(concert);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedConcert);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 
@@ -91,7 +92,7 @@ public class ConcertController {
      * Modifier un concert existant
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Concert> update(@PathVariable Long id, @RequestBody Concert concert) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Concert concert) {
         try {
             // Vérifier que le concert existe
             if (!concertService.existsById(id)) {
@@ -103,7 +104,7 @@ public class ConcertController {
             Concert updatedConcert = concertService.save(concert);
             return ResponseEntity.ok(updatedConcert);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 
