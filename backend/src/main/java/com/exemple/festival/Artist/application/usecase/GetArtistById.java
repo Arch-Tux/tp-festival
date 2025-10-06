@@ -1,43 +1,39 @@
 package com.exemple.festival.Artist.application.usecase;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.exemple.festival.Artist.domain.entities.Artist;
 import com.exemple.festival.Artist.infrastructure.repositories.ArtistRepository;
 
 /**
- * Use case pour supprimer un artiste
+ * Use case pour récupérer un artiste par son ID
  */
 @Service
-@Transactional
-public class DeleteArtistUseCase {
+@Transactional(readOnly = true)
+public class GetArtistById {
     
     @Autowired
     private ArtistRepository artistRepository;
     
     /**
-     * Supprimer un artiste par son ID
+     * Récupérer un artiste par son ID
      * 
-     * @param id L'ID de l'artiste à supprimer
-     * @throws IllegalArgumentException si l'ID est null ou si l'artiste n'existe pas
+     * @param id L'ID de l'artiste à récupérer
+     * @return Optional contenant l'artiste s'il existe
+     * @throws IllegalArgumentException si l'ID est null
      */
-    public void execute(Long id) {
+    public Optional<Artist> execute(Long id) {
         validateId(id);
-        validateArtistExists(id);
-        
-        artistRepository.deleteById(id);
+        return artistRepository.findById(id);
     }
     
     private void validateId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("L'ID ne peut pas être null");
-        }
-    }
-    
-    private void validateArtistExists(Long id) {
-        if (!artistRepository.existsById(id)) {
-            throw new IllegalArgumentException("Aucun artiste trouvé avec l'ID: " + id);
         }
     }
 }

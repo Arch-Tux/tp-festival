@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exemple.festival.Artist.application.usecase.CreateArtistUseCase;
-import com.exemple.festival.Artist.application.usecase.DeleteAllArtistsUseCase;
-import com.exemple.festival.Artist.application.usecase.DeleteArtistUseCase;
-import com.exemple.festival.Artist.application.usecase.GetAllArtistsUseCase;
-import com.exemple.festival.Artist.application.usecase.GetArtistByIdUseCase;
-import com.exemple.festival.Artist.application.usecase.GetArtistStatisticsUseCase;
-import com.exemple.festival.Artist.application.usecase.UpdateArtistUseCase;
+import com.exemple.festival.Artist.application.usecase.CreateArtist;
+import com.exemple.festival.Artist.application.usecase.DeleteAllArtists;
+import com.exemple.festival.Artist.application.usecase.DeleteArtist;
+import com.exemple.festival.Artist.application.usecase.GetAllArtists;
+import com.exemple.festival.Artist.application.usecase.GetArtistById;
+import com.exemple.festival.Artist.application.usecase.GetArtistStatistics;
+import com.exemple.festival.Artist.application.usecase.UpdateArtist;
 import com.exemple.festival.Artist.domain.entities.Artist;
 
 @RestController
@@ -31,19 +31,19 @@ import com.exemple.festival.Artist.domain.entities.Artist;
 public class ArtistController {
 
     @Autowired
-    private CreateArtistUseCase createArtistUseCase;
+    private CreateArtist createArtistUseCase;
     @Autowired
-    private DeleteAllArtistsUseCase deleteAllArtistsUseCase;
+    private DeleteAllArtists deleteAllArtistsUseCase;
     @Autowired
-    private DeleteArtistUseCase deleteArtistUseCase;
+    private DeleteArtist deleteArtistUseCase;
     @Autowired
-    private GetAllArtistsUseCase getAllArtistsUseCase;
+    private GetAllArtists getAllArtistsUseCase;
     @Autowired
-    private GetArtistByIdUseCase getArtistByIdUseCase;
+    private GetArtistById getArtistByIdUseCase;
     @Autowired
-    private GetArtistStatisticsUseCase getArtistStatisticsUseCase;
+    private GetArtistStatistics getArtistStatisticsUseCase;
     @Autowired
-    private UpdateArtistUseCase updateArtistUseCase;
+    private UpdateArtist updateArtistUseCase;
 
     // ========== READ OPERATIONS ==========
 

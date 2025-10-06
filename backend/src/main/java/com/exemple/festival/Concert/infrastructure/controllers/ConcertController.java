@@ -16,7 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exemple.festival.Concert.application.usecase.ConcertService;
+import com.exemple.festival.Concert.application.usecase.CreateConcert;
+import com.exemple.festival.Concert.application.usecase.DeleteAllConcerts;
+import com.exemple.festival.Concert.application.usecase.DeleteConcert;
+import com.exemple.festival.Concert.application.usecase.GetAllConcerts;
+import com.exemple.festival.Concert.application.usecase.GetConcertById;
+import com.exemple.festival.Concert.application.usecase.GetConcertStatistics;
+import com.exemple.festival.Concert.application.usecase.GetConcertsByArtist;
+import com.exemple.festival.Concert.application.usecase.UpdateConcert;
 import com.exemple.festival.Concert.domain.entities.Concert;
 
 @RestController
@@ -24,7 +31,21 @@ import com.exemple.festival.Concert.domain.entities.Concert;
 public class ConcertController {
 
     @Autowired
-    private ConcertService concertService;
+    private CreateConcert createConcert;
+    @Autowired
+    private DeleteAllConcerts deleteAllConcerts;
+    @Autowired
+    private DeleteConcert deleteConcert;
+    @Autowired
+    private GetAllConcerts getAllConcerts;
+    @Autowired
+    private GetConcertById getConcertById;
+    @Autowired
+    private GetConcertsByArtist getConcertsByArtist;
+    @Autowired
+    private GetConcertStatistics getConcertStatistics;
+    @Autowired
+    private UpdateConcert updateConcert;
 
     // ========== READ OPERATIONS ==========
 
@@ -33,7 +54,7 @@ public class ConcertController {
      */
     @GetMapping
     public ResponseEntity<List<Concert>> findAll() {
-        List<Concert> concerts = concertService.findAll();
+        List<Concert> concerts = getAllConcerts.execute();
         return ResponseEntity.ok(concerts);
     }
 
@@ -42,7 +63,7 @@ public class ConcertController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Concert> findById(@PathVariable Long id) {
-        Optional<Concert> concert = concertService.findById(id);
+        Optional<Concert> concert = getConcertById.execute(id);
         
         if (concert.isPresent()) {
             return ResponseEntity.ok(concert.get());
@@ -56,7 +77,7 @@ public class ConcertController {
      */
     @GetMapping("/count")
     public ResponseEntity<Long> count() {
-        long count = concertService.count();
+        long count = getConcertStatistics.getTotalCount();
         return ResponseEntity.ok(count);
     }
 
@@ -65,7 +86,7 @@ public class ConcertController {
      */
     @GetMapping("/artist/{artistId}")
     public ResponseEntity<List<Concert>> findByArtistId(@PathVariable Long artistId) {
-        List<Concert> concerts = concertService.findByArtistId(artistId);
+        List<Concert> concerts = getConcertsByArtist.execute(artistId);
         return ResponseEntity.ok(concerts);
     }
 
@@ -79,7 +100,7 @@ public class ConcertController {
         try {
             // S'assurer que l'ID est null pour une création
             concert.setId(null);
-            Concert savedConcert = concertService.save(concert);
+            Concert savedConcert = createConcert.execute(concert);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedConcert);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
@@ -94,14 +115,13 @@ public class ConcertController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Concert concert) {
         try {
-            // Vérifier que le concert existe
-            if (!concertService.existsById(id)) {
+            if (!getConcertById.execute(id).isPresent()) {
                 return ResponseEntity.notFound().build();
             }
             
             // S'assurer que l'ID correspond
             concert.setId(id);
-            Concert updatedConcert = concertService.save(concert);
+            Concert updatedConcert = updateConcert.execute(concert);
             return ResponseEntity.ok(updatedConcert);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
@@ -115,11 +135,12 @@ public class ConcertController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        if (!concertService.existsById(id)) {
+        Optional<Concert> concert = getConcertById.execute(id);
+        if (!concert.isPresent()) {
             return ResponseEntity.notFound().build();
         }
         
-        concertService.deleteById(id);
+        deleteConcert.execute(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -128,7 +149,7 @@ public class ConcertController {
      */
     @DeleteMapping("/all")
     public ResponseEntity<Void> deleteAll() {
-        concertService.deleteAllAndResetIds();
+        deleteAllConcerts.execute();
         return ResponseEntity.noContent().build();
     }
 }

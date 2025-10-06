@@ -14,7 +14,7 @@ import com.exemple.festival.Artist.infrastructure.repositories.ArtistRepository;
  */
 @Service
 @Transactional(readOnly = true)
-public class GetAllArtistsUseCase {
+public class GetAllArtists {
     
     @Autowired
     private ArtistRepository artistRepository;

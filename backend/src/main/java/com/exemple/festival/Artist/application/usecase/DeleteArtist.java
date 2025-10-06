@@ -7,39 +7,37 @@ import org.springframework.transaction.annotation.Transactional;
 import com.exemple.festival.Artist.infrastructure.repositories.ArtistRepository;
 
 /**
- * Use case pour obtenir des statistiques sur les artistes
+ * Use case pour supprimer un artiste
  */
 @Service
-@Transactional(readOnly = true)
-public class GetArtistStatisticsUseCase {
+@Transactional
+public class DeleteArtist {
     
     @Autowired
     private ArtistRepository artistRepository;
     
     /**
-     * Compter le nombre total d'artistes
+     * Supprimer un artiste par son ID
      * 
-     * @return Le nombre total d'artistes
+     * @param id L'ID de l'artiste à supprimer
+     * @throws IllegalArgumentException si l'ID est null ou si l'artiste n'existe pas
      */
-    public long getTotalCount() {
-        return artistRepository.count();
-    }
-    
-    /**
-     * Vérifier si un artiste existe par ID
-     * 
-     * @param id L'ID de l'artiste
-     * @return true si l'artiste existe, false sinon
-     * @throws IllegalArgumentException si l'ID est null
-     */
-    public boolean existsById(Long id) {
+    public void execute(Long id) {
         validateId(id);
-        return artistRepository.existsById(id);
+        validateArtistExists(id);
+        
+        artistRepository.deleteById(id);
     }
     
     private void validateId(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("L'ID ne peut pas être null");
+        }
+    }
+    
+    private void validateArtistExists(Long id) {
+        if (!artistRepository.existsById(id)) {
+            throw new IllegalArgumentException("Aucun artiste trouvé avec l'ID: " + id);
         }
     }
 }

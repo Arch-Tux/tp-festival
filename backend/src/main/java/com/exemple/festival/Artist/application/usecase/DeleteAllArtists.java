@@ -11,7 +11,7 @@ import com.exemple.festival.Artist.infrastructure.repositories.ArtistRepository;
  */
 @Service
 @Transactional
-public class DeleteAllArtistsUseCase {
+public class DeleteAllArtists {
     
     @Autowired
     private ArtistRepository artistRepository;

@@ -1,34 +1,40 @@
 package com.exemple.festival.Artist.application.usecase;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.exemple.festival.Artist.domain.entities.Artist;
 import com.exemple.festival.Artist.infrastructure.repositories.ArtistRepository;
 
 /**
- * Use case pour récupérer un artiste par son ID
+ * Use case pour obtenir des statistiques sur les artistes
  */
 @Service
 @Transactional(readOnly = true)
-public class GetArtistByIdUseCase {
+public class GetArtistStatistics {
     
     @Autowired
     private ArtistRepository artistRepository;
     
     /**
-     * Récupérer un artiste par son ID
+     * Compter le nombre total d'artistes
      * 
-     * @param id L'ID de l'artiste à récupérer
-     * @return Optional contenant l'artiste s'il existe
+     * @return Le nombre total d'artistes
+     */
+    public long getTotalCount() {
+        return artistRepository.count();
+    }
+    
+    /**
+     * Vérifier si un artiste existe par ID
+     * 
+     * @param id L'ID de l'artiste
+     * @return true si l'artiste existe, false sinon
      * @throws IllegalArgumentException si l'ID est null
      */
-    public Optional<Artist> execute(Long id) {
+    public boolean existsById(Long id) {
         validateId(id);
-        return artistRepository.findById(id);
+        return artistRepository.existsById(id);
     }
     
     private void validateId(Long id) {
