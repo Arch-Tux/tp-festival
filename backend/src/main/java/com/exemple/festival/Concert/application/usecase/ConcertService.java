@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.exemple.festival.Artist.infrastructure.repositories.ArtistRepository;
 import com.exemple.festival.Concert.domain.entities.Concert;
 import com.exemple.festival.Concert.infrastructure.repositories.ConcertRepository;
-
+//TODO Découper en use case
 @Service
 @Transactional
 public class ConcertService {
