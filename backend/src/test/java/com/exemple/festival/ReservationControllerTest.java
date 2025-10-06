@@ -29,11 +29,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.exemple.festival.business.entities.Artist;
-import com.exemple.festival.business.entities.Concert;
-import com.exemple.festival.business.entities.Reservation;
-import com.exemple.festival.business.services.ReservationService;
-import com.exemple.festival.presentation.ReservationController;
+import com.exemple.festival.Artist.domain.entities.Artist;
+import com.exemple.festival.Concert.domain.entities.Concert;
+import com.exemple.festival.Reservation.application.usecase.ReservationService;
+import com.exemple.festival.Reservation.domain.entities.Reservation;
+import com.exemple.festival.Reservation.infrastructure.controllers.ReservationController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(ReservationController.class)

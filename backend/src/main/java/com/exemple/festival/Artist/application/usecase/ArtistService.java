@@ -1,4 +1,4 @@
-package com.exemple.festival.business.services;
+package com.exemple.festival.Artist.application.usecase;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.exemple.festival.business.entities.Artist;
-import com.exemple.festival.data.repositories.ArtistRepository;
+import com.exemple.festival.Artist.domain.entities.Artist;
+import com.exemple.festival.Artist.infrastructure.repositories.ArtistRepository;
 
+
+
+//TODO Découper en use case
 @Service
 @Transactional
 public class ArtistService {

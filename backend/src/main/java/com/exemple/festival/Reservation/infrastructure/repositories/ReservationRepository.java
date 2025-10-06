@@ -1,4 +1,4 @@
-package com.exemple.festival.data.repositories;
+package com.exemple.festival.Reservation.infrastructure.repositories;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.exemple.festival.business.entities.Reservation;
+import com.exemple.festival.Reservation.domain.entities.Reservation;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {

@@ -1,4 +1,5 @@
-package com.exemple.festival.presentation;
+
+package com.exemple.festival.Artist.infrastructure.controllers;
 
 import java.util.List;
 import java.util.Map;
@@ -14,73 +15,74 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exemple.festival.business.entities.Concert;
-import com.exemple.festival.business.services.ConcertService;
+import com.exemple.festival.Artist.application.usecase.ArtistService;
+import com.exemple.festival.Artist.domain.entities.Artist;
 
 @RestController
-@RequestMapping("/api/concerts")
-public class ConcertController {
+@RequestMapping("/api/artists")
+public class ArtistController {
 
     @Autowired
-    private ConcertService concertService;
+    private ArtistService artistService;
 
     // ========== READ OPERATIONS ==========
 
     /**
-     * Récupérer tous les concerts
+     * Récupérer tous les artistes
      */
     @GetMapping
-    public ResponseEntity<List<Concert>> findAll() {
-        List<Concert> concerts = concertService.findAll();
-        return ResponseEntity.ok(concerts);
+    public ResponseEntity<List<Artist>> findAll() {
+        List<Artist> artists = artistService.findAll();
+        return ResponseEntity.ok(artists);
     }
 
     /**
-     * Récupérer un concert par ID
+     * Récupérer un artiste par ID
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Concert> findById(@PathVariable Long id) {
-        Optional<Concert> concert = concertService.findById(id);
+    public ResponseEntity<Artist> findById(@PathVariable Long id) {
+        Optional<Artist> artist = artistService.findById(id);
         
-        if (concert.isPresent()) {
-            return ResponseEntity.ok(concert.get());
+        if (artist.isPresent()) {
+            return ResponseEntity.ok(artist.get());
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     /**
-     * Compter le nombre total de concerts
+     * Compter le nombre total d'artistes
      */
     @GetMapping("/count")
     public ResponseEntity<Long> count() {
-        long count = concertService.count();
+        long count = artistService.count();
         return ResponseEntity.ok(count);
     }
 
     /**
-     * Récupérer les concerts d'un artiste
+     * Rechercher des artistes par nom (mot-clé)
      */
-    @GetMapping("/artist/{artistId}")
-    public ResponseEntity<List<Concert>> findByArtistId(@PathVariable Long artistId) {
-        List<Concert> concerts = concertService.findByArtistId(artistId);
-        return ResponseEntity.ok(concerts);
+    @GetMapping("/search")
+    public ResponseEntity<List<Artist>> searchByName(@RequestParam String keyword) {
+        List<Artist> artists = artistService.searchByName(keyword);
+        return ResponseEntity.ok(artists);
     }
 
     // ========== CREATE OPERATION ==========
 
     /**
-     * Créer un nouveau concert
+     * Créer un nouvel artiste
      */
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Concert concert) {
+    public ResponseEntity<?> create(@RequestBody Artist artist) {
         try {
             // S'assurer que l'ID est null pour une création
-            concert.setId(null);
-            Concert savedConcert = concertService.save(concert);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedConcert);
+            artist.setId(null);
+            Artist savedArtist = artistService.save(artist);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedArtist);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
@@ -89,20 +91,20 @@ public class ConcertController {
     // ========== UPDATE OPERATION ==========
 
     /**
-     * Modifier un concert existant
+     * Modifier un artiste existant
      */
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Concert concert) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Artist artist) {
         try {
-            // Vérifier que le concert existe
-            if (!concertService.existsById(id)) {
+            // Vérifier que l'artiste existe
+            if (!artistService.existsById(id)) {
                 return ResponseEntity.notFound().build();
             }
             
             // S'assurer que l'ID correspond
-            concert.setId(id);
-            Concert updatedConcert = concertService.save(concert);
-            return ResponseEntity.ok(updatedConcert);
+            artist.setId(id);
+            Artist updatedArtist = artistService.save(artist);
+            return ResponseEntity.ok(updatedArtist);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
@@ -111,24 +113,24 @@ public class ConcertController {
     // ========== DELETE OPERATIONS ==========
 
     /**
-     * Supprimer un concert par ID
+     * Supprimer un artiste par ID
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        if (!concertService.existsById(id)) {
+        if (!artistService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
         
-        concertService.deleteById(id);
+        artistService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     /**
-     * Supprimer tous les concerts et reset des IDs
+     * Supprimer tous les artistes et reset des IDs
      */
     @DeleteMapping("/all")
     public ResponseEntity<Void> deleteAll() {
-        concertService.deleteAllAndResetIds();
+        artistService.deleteAllAndResetIds();
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,4 +1,4 @@
-package com.exemple.festival.config;
+package com.exemple.festival.infrastructure.config;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.exemple.festival.business.entities.Artist;
-import com.exemple.festival.business.entities.Concert;
-import com.exemple.festival.business.services.ArtistService;
-import com.exemple.festival.business.services.ConcertService;
+import com.exemple.festival.Artist.application.usecase.ArtistService;
+import com.exemple.festival.Artist.domain.entities.Artist;
+import com.exemple.festival.Concert.application.usecase.ConcertService;
+import com.exemple.festival.Concert.domain.entities.Concert;
 
 import net.datafaker.Faker;
 

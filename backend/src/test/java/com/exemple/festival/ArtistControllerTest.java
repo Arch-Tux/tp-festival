@@ -27,9 +27,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.exemple.festival.business.entities.Artist;
-import com.exemple.festival.business.services.ArtistService;
-import com.exemple.festival.presentation.ArtistController;
+import com.exemple.festival.Artist.application.usecase.ArtistService;
+import com.exemple.festival.Artist.domain.entities.Artist;
+import com.exemple.festival.Artist.infrastructure.controllers.ArtistController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(ArtistController.class)

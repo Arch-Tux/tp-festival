@@ -1,4 +1,4 @@
-package com.exemple.festival.business.entities;
+package com.exemple.festival.Artist.domain.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

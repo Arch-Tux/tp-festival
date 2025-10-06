@@ -28,10 +28,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.exemple.festival.business.entities.Artist;
-import com.exemple.festival.business.entities.Concert;
-import com.exemple.festival.business.services.ConcertService;
-import com.exemple.festival.presentation.ConcertController;
+import com.exemple.festival.Artist.domain.entities.Artist;
+import com.exemple.festival.Concert.application.usecase.ConcertService;
+import com.exemple.festival.Concert.domain.entities.Concert;
+import com.exemple.festival.Concert.infrastructure.controllers.ConcertController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(ConcertController.class)

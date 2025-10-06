@@ -1,6 +1,8 @@
-package com.exemple.festival.business.entities;
+package com.exemple.festival.Reservation.domain.entities;
 
 import java.time.LocalDateTime;
+
+import com.exemple.festival.Concert.domain.entities.Concert;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.exemple.festival.business.services;
+package com.exemple.festival.Reservation.application.usecase;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.exemple.festival.business.entities.Reservation;
-import com.exemple.festival.data.repositories.ConcertRepository;
-import com.exemple.festival.data.repositories.ReservationRepository;
+import com.exemple.festival.Concert.infrastructure.repositories.ConcertRepository;
+import com.exemple.festival.Reservation.domain.entities.Reservation;
+import com.exemple.festival.Reservation.infrastructure.repositories.ReservationRepository;
 
 @Service
 @Transactional

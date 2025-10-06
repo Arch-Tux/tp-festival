@@ -1,4 +1,4 @@
-package com.exemple.festival.presentation;
+package com.exemple.festival.Reservation.infrastructure.controllers;
 
 import java.util.List;
 import java.util.Map;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exemple.festival.business.entities.Reservation;
-import com.exemple.festival.business.services.ReservationService;
+import com.exemple.festival.Reservation.application.usecase.ReservationService;
+import com.exemple.festival.Reservation.domain.entities.Reservation;
 
 @RestController
 @RequestMapping("/api/reservations")

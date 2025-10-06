@@ -1,6 +1,8 @@
-package com.exemple.festival.business.entities;
+package com.exemple.festival.Concert.domain.entities;
 
 import java.sql.Date;
+
+import com.exemple.festival.Artist.domain.entities.Artist;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

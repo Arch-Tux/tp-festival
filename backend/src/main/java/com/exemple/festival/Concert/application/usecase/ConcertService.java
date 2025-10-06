@@ -1,4 +1,4 @@
-package com.exemple.festival.business.services;
+package com.exemple.festival.Concert.application.usecase;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.exemple.festival.business.entities.Concert;
-import com.exemple.festival.data.repositories.ArtistRepository;
-import com.exemple.festival.data.repositories.ConcertRepository;
+import com.exemple.festival.Artist.infrastructure.repositories.ArtistRepository;
+import com.exemple.festival.Concert.domain.entities.Concert;
+import com.exemple.festival.Concert.infrastructure.repositories.ConcertRepository;
 
 @Service
 @Transactional
