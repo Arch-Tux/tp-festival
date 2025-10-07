@@ -31,19 +31,19 @@ import com.exemple.festival.Artist.domain.entities.Artist;
 public class ArtistController {
 
     @Autowired
-    private CreateArtist createArtistUseCase;
+    private CreateArtist createArtist;
     @Autowired
-    private DeleteAllArtists deleteAllArtistsUseCase;
+    private DeleteAllArtists deleteAllArtists;
     @Autowired
-    private DeleteArtist deleteArtistUseCase;
+    private DeleteArtist deleteArtist;
     @Autowired
-    private GetAllArtists getAllArtistsUseCase;
+    private GetAllArtists getAllArtists;
     @Autowired
-    private GetArtistById getArtistByIdUseCase;
+    private GetArtistById getArtistById;
     @Autowired
-    private GetArtistStatistics getArtistStatisticsUseCase;
+    private GetArtistStatistics getArtistStatistics;
     @Autowired
-    private UpdateArtist updateArtistUseCase;
+    private UpdateArtist updateArtist;
 
     // ========== READ OPERATIONS ==========
 
@@ -52,7 +52,7 @@ public class ArtistController {
      */
     @GetMapping
     public ResponseEntity<List<Artist>> findAll() {
-        List<Artist> artists = getAllArtistsUseCase.execute();
+        List<Artist> artists = getAllArtists.execute();
         return ResponseEntity.ok(artists);
     }
 
@@ -61,7 +61,7 @@ public class ArtistController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Artist> findById(@PathVariable Long id) {
-        Optional<Artist> artist = getArtistByIdUseCase.execute(id);
+        Optional<Artist> artist = getArtistById.execute(id);
         
         if (artist.isPresent()) {
             return ResponseEntity.ok(artist.get());
@@ -75,7 +75,7 @@ public class ArtistController {
      */
     @GetMapping("/count")
     public ResponseEntity<Long> count() {
-        long count = getArtistStatisticsUseCase.getTotalCount();
+        long count = getArtistStatistics.getTotalCount();
         return ResponseEntity.ok(count);
     }
 
@@ -89,7 +89,7 @@ public class ArtistController {
     public ResponseEntity<?> create(@RequestBody Artist artist) {
         try {
             artist.setId(null);
-            Artist savedArtist = createArtistUseCase.execute(artist);
+            Artist savedArtist = createArtist.execute(artist);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedArtist);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
@@ -104,14 +104,14 @@ public class ArtistController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Artist artist) {
         try {
-            Optional<Artist> existingArtist = getArtistByIdUseCase.execute(id);
+            Optional<Artist> existingArtist = getArtistById.execute(id);
             if (!existingArtist.isPresent()) {
                 return ResponseEntity.notFound().build();
             }
             
             // S'assurer que l'ID correspond
             artist.setId(id);
-            Artist updatedArtist = updateArtistUseCase.execute(artist);
+            Artist updatedArtist = updateArtist.execute(artist);
             return ResponseEntity.ok(updatedArtist);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
@@ -125,12 +125,12 @@ public class ArtistController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        Optional<Artist> artist = getArtistByIdUseCase.execute(id);
+        Optional<Artist> artist = getArtistById.execute(id);
         if (!artist.isPresent()) {
             return ResponseEntity.notFound().build();
         }
         
-        deleteArtistUseCase.execute(id);
+        deleteArtist.execute(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -139,7 +139,7 @@ public class ArtistController {
      */
     @DeleteMapping("/all")
     public ResponseEntity<Void> deleteAll() {
-        deleteAllArtistsUseCase.execute();
+        deleteAllArtists.execute();
         return ResponseEntity.noContent().build();
     }
 }

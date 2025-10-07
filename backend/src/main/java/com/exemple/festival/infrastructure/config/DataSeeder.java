@@ -14,9 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.exemple.festival.Artist.application.usecase.ArtistService;
+import com.exemple.festival.Artist.application.usecase.CreateArtist;
+import com.exemple.festival.Artist.application.usecase.GetArtistStatistics;
 import com.exemple.festival.Artist.domain.entities.Artist;
-import com.exemple.festival.Concert.application.usecase.ConcertService;
+import com.exemple.festival.Concert.application.usecase.CreateConcert;
 import com.exemple.festival.Concert.domain.entities.Concert;
 
 import net.datafaker.Faker;
@@ -25,10 +26,13 @@ import net.datafaker.Faker;
 public class DataSeeder implements CommandLineRunner {
 
     @Autowired
-    private ArtistService artistService;
-
+    private CreateArtist createArtist;
     @Autowired
-    private ConcertService concertService;
+    private GetArtistStatistics getArtistStatistics;
+    @Autowired
+    private CreateConcert createConcert;
+
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -37,7 +41,7 @@ public class DataSeeder implements CommandLineRunner {
 
     private void seedDatabase() {
         // Ne seed que si la base est vide
-        if (artistService.count() == 0) {
+        if (getArtistStatistics.getTotalCount() == 0) {
             System.out.println("🌱 Démarrage du seeding de la base de données...");
             
             // Créer 50 artistes
@@ -82,7 +86,7 @@ public class DataSeeder implements CommandLineRunner {
                 
                 Artist artist = new Artist();
                 artist.setName(artistName);
-                artists.add(artistService.save(artist));
+                artists.add(createArtist.execute(artist));
             }
         }
         
@@ -97,7 +101,7 @@ public class DataSeeder implements CommandLineRunner {
         concert1.setArtist(artists.get(random.nextInt(artists.size()))); // Artiste aléatoire
         concert1.setStartsAt(generateRandomDate(random)); // Date aléatoire
         concert1.setCapacity(random.nextInt(8000) + 2000); // Capacité entre 2000 et 10000
-        concertService.save(concert1);
+        createConcert.execute(concert1);
 
         // Concert 2 - Artiste aléatoire (différent du premier)
         Concert concert2 = new Concert();
@@ -109,7 +113,7 @@ public class DataSeeder implements CommandLineRunner {
         concert2.setArtist(artist2);
         concert2.setStartsAt(generateRandomDate(random)); // Date aléatoire
         concert2.setCapacity(random.nextInt(8000) + 2000); // Capacité entre 2000 et 10000
-        concertService.save(concert2);
+        createConcert.execute(concert2);
     }
     
     /**
