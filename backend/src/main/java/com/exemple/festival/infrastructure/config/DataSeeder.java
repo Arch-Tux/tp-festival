@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.exemple.festival.Artist.application.usecase.CreateArtist;
-import com.exemple.festival.Artist.application.usecase.GetArtistStatistics;
-import com.exemple.festival.Artist.domain.entities.Artist;
-import com.exemple.festival.Concert.application.usecase.CreateConcert;
-import com.exemple.festival.Concert.domain.entities.Concert;
+import com.exemple.festival.domain.model.artist.Artist;
+import com.exemple.festival.domain.model.concert.Concert;
+import com.exemple.festival.port.input.artist.CreateArtist;
+import com.exemple.festival.port.input.artist.GetArtistStatistics;
+import com.exemple.festival.port.input.concert.CreateConcert;
 
 import net.datafaker.Faker;
 

@@ -28,8 +28,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.exemple.festival.Artist.application.usecase.ArtistService;
-import com.exemple.festival.Artist.domain.entities.Artist;
-import com.exemple.festival.Artist.infrastructure.controllers.ArtistController;
+import com.exemple.festival.adapter.artist.ArtistController;
+import com.exemple.festival.domain.model.artist.Artist;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(ArtistController.class)
